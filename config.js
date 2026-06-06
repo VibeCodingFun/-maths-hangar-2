@@ -1,0 +1,1 @@
+const PEXELS_KEY = "vUfpxrjlhdZU339iGJBiHS0n0ohEbV1H68wszUaHmPc0pU6boUe0Cr7v";

@@ -98,20 +98,25 @@ ui.inputField.addEventListener('input', (e) => {
    6. UPDATED LOOT LOGIC
    ========================================= */
 function checkLootDrop() {
+    // Check if we've hit the target
     if (GameState.questionsSinceLastDrop >= GameState.nextDropTarget) {
-        GameState.isPaused = true;
-        const reward = getRandomPlaneFromDatabase(); // Needs to be a new, unowned plane
+        // 1. Get a random plane that isn't already owned
+        const reward = getRandomPlaneFromDatabase(); 
 
-        if (GameState.hand.length < 5) {
-            // If space, just add it
-            GameState.hand.push(reward);
-            saveProgress();
-            renderHangar();
-        } else {
-            // Hand full, show Modal
-            showExchangeModal(reward);
+        if (reward) { // Only proceed if we found a plane
+            // 2. Decide if it goes to hand or triggers modal
+            if (GameState.hand.length < 5) {
+                GameState.hand.push(reward);
+                alert(`Loot Drop! You unlocked: ${reward.name}`);
+                saveProgress();
+                renderHangar();
+            } else {
+                // Trigger the modal swap logic
+                showExchangeModal(reward);
+            }
         }
 
+        // 3. Reset the counter
         GameState.questionsSinceLastDrop = 0;
         GameState.nextDropTarget = getRandomDropTarget();
     }

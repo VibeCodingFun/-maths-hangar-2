@@ -98,27 +98,29 @@ ui.inputField.addEventListener('input', (e) => {
    6. UPDATED LOOT LOGIC
    ========================================= */
 function checkLootDrop() {
-    // Check if we've hit the target
+    console.log("Checking loot drop...", GameState.questionsSinceLastDrop, "/", GameState.nextDropTarget);
+    
     if (GameState.questionsSinceLastDrop >= GameState.nextDropTarget) {
-        // 1. Get a random plane that isn't already owned
+        console.log("Threshold reached! Picking reward...");
+        
         const reward = getRandomPlaneFromDatabase(); 
+        console.log("Reward selected:", reward);
 
-        if (reward) { // Only proceed if we found a plane
-            // 2. Decide if it goes to hand or triggers modal
+        if (reward) {
             if (GameState.hand.length < 5) {
+                console.log("Adding to hand");
                 GameState.hand.push(reward);
-                alert(`Loot Drop! You unlocked: ${reward.name}`);
                 saveProgress();
                 renderHangar();
             } else {
-                // Trigger the modal swap logic
+                console.log("Hand full, showing modal");
                 showExchangeModal(reward);
             }
         }
 
-        // 3. Reset the counter
         GameState.questionsSinceLastDrop = 0;
         GameState.nextDropTarget = getRandomDropTarget();
+        console.log("Reset for next drop. Next target:", GameState.nextDropTarget);
     }
 }
 
@@ -221,13 +223,18 @@ async function fetchAircraftPhoto(query) {
    8. UPDATED RENDER HANGAR
    ========================================= */
 async function renderHangar() {
+    console.log("Rendering hangar. Hand size:", GameState.hand.length);
     ui.gallery.innerHTML = '';
+
+    // 1. Force the container to be visible
+    ui.hangarContainer.classList.remove('hidden');
 
     // Merge both arrays into one temporary list for rendering
     const allPlanes = [...GameState.hand, ...GameState.collection];
     
     // Now just loop through the combined list once
     for (const aircraft of allPlanes) {
+        console.log("Rendering plane:", aircraft.name);
         // If we haven't fetched the photo, do it now
         // We check if photo is null or the original static placeholder
         if (!aircraft.photo || aircraft.photo.includes(".jpg")) { 

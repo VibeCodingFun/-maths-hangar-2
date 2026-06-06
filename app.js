@@ -113,9 +113,43 @@ function checkLootDrop() {
     }
 }
 
-function renderHangar() {
+/* =========================================
+   7. FETCHING IMAGES FROM PEXELS
+   ========================================= */
+async function fetchAircraftPhoto(query) {
+    // Check if we have the key defined in config.js
+    if (typeof PEXELS_KEY === 'undefined') return "fallback-darkness.jpg";
+
+    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1`;
+
+    try {
+        const response = await fetch(url, {
+            headers: { Authorization: PEXELS_KEY }
+        });
+        const data = await response.json();
+        
+        // Return the image URL if found, else fallback
+        return data.photos && data.photos.length > 0 
+            ? data.photos[0].src.medium 
+            : "fallback-darkness.jpg";
+    } catch (error) {
+        console.error("Failed to fetch image", error);
+        return "fallback-darkness.jpg";
+    }
+}
+
+/* =========================================
+   8. UPDATED RENDER HANGAR
+   ========================================= */
+async function renderHangar() {
     ui.gallery.innerHTML = '';
-    GameState.unlockedAircraft.forEach(aircraft => {
+    
+    for (const aircraft of GameState.unlockedAircraft) {
+        // If we haven't fetched the photo, do it now
+        if (!aircraft.photo || aircraft.photo === "commercial.jpg") { // Check against original placeholders
+            aircraft.photo = await fetchAircraftPhoto(aircraft.searchQuery);
+        }
+
         const card = document.createElement('div');
         card.className = 'aircraft-card';
         card.innerHTML = `
@@ -133,8 +167,7 @@ function renderHangar() {
         `;
         card.addEventListener('click', () => card.classList.toggle('is-flipped'));
         ui.gallery.appendChild(card);
-    });
+    }
 }
-
 generateQuestion();
 startTimer();

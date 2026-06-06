@@ -86,12 +86,13 @@ const categoryPhotos = {
 
                     const fullName = `${item.brand} ${model}${suffix} ${config}`.trim().replace(/\s+/g, ' ');
 
-                    allPossiblePlanes.push({
-                        name: fullName,
-                        speed: `${realSpeed.toLocaleString()} mph`,
-                        rarity: rarity,
-                        photo: categoryPhotos[item.type] // Attach integrated image asset path
-                    });
+allPossiblePlanes.push({
+    name: fullName,
+    searchQuery: `${item.brand} ${model} airplane`, // Used for fetching the image
+    speed: `${realSpeed.toLocaleString()} mph`,
+    rarity: rarity,
+    photo: null // We will set this dynamically
+});
                 });
             });
         });

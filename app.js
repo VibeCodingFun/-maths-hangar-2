@@ -11,6 +11,8 @@ const GameState = {
     unlockedAircraft: [] 
 };
 
+let aircraftDatabase = [];
+
 function getRandomDropTarget() { return Math.floor(Math.random() * 4) + 2; }
 
 /* =========================================
@@ -228,4 +230,25 @@ window.onload = () => {
     ui.questionDisplay.innerText = "Press Next to Start";
     ui.nextBtn.classList.remove('hidden');
     ui.inputField.disabled = true;
+
+/* =========================================
+   9. INITIALIZATION
+   ========================================= */
+async function initGame() {
+    try {
+        const response = await fetch('./aircraft.json');
+        aircraftDatabase = await response.json();
+        console.log("Database Loaded:", aircraftDatabase.length, "planes available.");
+        
+        loadProgress();
+        ui.questionDisplay.innerText = "Press Next to Start";
+        ui.nextBtn.classList.remove('hidden');
+        ui.inputField.disabled = true;
+    } catch (error) {
+        console.error("Failed to load aircraft.json:", error);
+    }
+}
+
+// Kick it off!
+initGame();
 };

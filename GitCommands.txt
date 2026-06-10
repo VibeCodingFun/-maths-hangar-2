@@ -1,0 +1,8 @@
+# 1. Stage all your changes
+git add .
+
+# 2. Commit the changes (the message describes what you fixed)
+git commit -m "Fix rendering loop, added hand/collection state, and update hangar UI"
+
+# 3. Push to GitHub
+git push origin main

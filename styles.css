@@ -108,14 +108,21 @@ body {
 }
 
 /* =========================================
-   4. FLIP CARD ANIMATIONS (3D Engine)
+   4. FLIP CARD ANIMATIONS & LAYOUT
    ========================================= */
 .aircraft-card {
+    /* From the first block */
     background-color: transparent;
     width: 100%;
-    height: 150px;
-    perspective: 1000px; /* Gives the 3D depth effect */
+    height: 180px;      /* Taller height as requested */
+    perspective: 1000px;
     cursor: pointer;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;   /* Clips image corners */
+    background: #fff;
+    display: flex;
+    flex-direction: column;
 }
 
 /* This inner container holds both front and back and handles the flip */
@@ -168,20 +175,11 @@ body {
 .rarity-epic { border-color: #b366ff; }
 .rarity-legendary { border-color: #ffcc00; }
 
-.aircraft-card {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden; /* Clips image corners smoothly to match card boundaries */
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    max-width: 240px;
-}
-
 .aircraft-card-img {
     width: 100%;
-    height: 130px;
-    object-fit: cover; /* Prevents stretching; clips cleanly into aspect ratio */
+    height: 140px; /* Increased to take up more of the new 180px height */
+    object-fit: contain; /* This stops it from cutting off the wings/nose */
+    background-color: #0f3460; /* Fills the "empty" space created by contain */
     border-bottom: 2px solid #eee;
 }
 

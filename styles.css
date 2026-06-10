@@ -111,15 +111,14 @@ body {
    4. FLIP CARD ANIMATIONS & LAYOUT
    ========================================= */
 .aircraft-card {
-    /* From the first block */
     background-color: transparent;
     width: 100%;
-    height: 180px;      /* Taller height as requested */
+    height: 220px; /* Increased from 180px to give more vertical room */
     perspective: 1000px;
     cursor: pointer;
     border: 2px solid #ccc;
     border-radius: 8px;
-    overflow: hidden;   /* Clips image corners */
+    overflow: hidden;
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -157,9 +156,17 @@ body {
 }
 
 /* Front of the card (Aircraft Name & Image placeholder) */
-.card-front {
+.card-front h3 {
     background-color: #16213e;
     border: 2px solid #0f3460;
+    padding: 0 5px;
+    font-size: 0.9rem; /* Slightly smaller text for longer names */
+    line-height: 1.2;
+    text-align: center;
+    color: #333;
+    /* This forces long names to wrap instead of cutting off */
+    white-space: normal; 
+    word-wrap: break-word;
 }
 
 /* Back of the card (Stats like Top Speed, Rarity) */
@@ -203,4 +210,80 @@ body {
     border-radius: 12px;
     max-width: 90%;
     text-align: center;
+}
+
+#next-btn {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    background-color: #e94560; /* Vibrant pink/red to match your progress bar */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #b33046; /* Adds a 3D "button" depth effect */
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+#next-btn:active {
+    transform: translateY(4px); /* Pushes down when clicked */
+    box-shadow: none;           /* Removes shadow to simulate a press */
+}
+
+#next-btn:hover {
+    background-color: #ff5e78;
+}
+
+#loot-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: #0f3460; /* Matches your question area theme */
+    padding: 25px;
+    border-radius: 16px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #e94560;
+}
+
+#modal-body {
+    margin: 20px 0;
+    font-size: 1.2rem;
+}
+
+#modal-body .aircraft-card {
+    height: 180px;
+    border: none;
+    margin: 15px auto;
+}
+
+#modal-body .aircraft-card-img {
+    height: 140px;
+    object-fit: contain;
+    background: #1a1a2e;
+}
+
+/* Make the button look like your 'Next' button */
+#close-modal-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: #e94560;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
 }
